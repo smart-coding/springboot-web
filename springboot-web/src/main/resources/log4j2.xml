@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 主要配置为error日志与debug日志分别打印文件，按天打印，自动打包zip。异步打印 -->
+<configuration status="warn" monitorInterval="30">
+	<Properties>
+		<Property name="sysName">bootweb</Property>
+		<Property name="log.path">./logs</Property>
+		<Property name="log.pattern">[%level{length=1}] %d{MM/dd HH:mm:ss,SSS} %C{1}(%L) - %m%n</Property>
+		<Property name="log.charset">UTF-8</Property>
+	</Properties>
+	
+	<appenders>
+		<!--1 ConsoleAppender -->
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern="${log.pattern}" charset="${log.charset}"/>
+			<ThresholdFilter level="INFO" onMatch="ACCEPT"
+				onMismatch="DENY" />
+		</Console>
+		
+		<!-- 3.allLog, record all log -->
+		<RollingFile name="debugLog" fileName="${log.path}/${sysName}.debug.log"
+			filePattern="${log.path}/${sysName}.debug.log.%i">
+			<ThresholdFilter level="DEBUG" onMatch="ACCEPT"
+				onMismatch="DENY" />
+			<PatternLayout pattern="${log.pattern}" charset="${log.charset}"/>
+			<Policies>
+				<SizeBasedTriggeringPolicy size="100 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="10"/>
+		</RollingFile>
+		
+		<!--2 record debug log in package "com.log4j2.test2" -->
+		<RollingFile name="infoLog" fileName="${log.path}/${sysName}.log"
+			filePattern="${log.path}/${sysName}.%d{yyyy-MM-dd}.zip">
+			<ThresholdFilter level="INFO" onMatch="ACCEPT"
+				onMismatch="DENY" />
+			<PatternLayout pattern="${log.pattern}" charset="${log.charset}"/>
+			<TimeBasedTriggeringPolicy interval="1"
+				modulate="true" />
+			<DefaultRolloverStrategy>
+				<Delete basePath="${log.path}" maxDepth="1">
+					<IfFileName glob="${sysName}.*.zip" />
+					<IfLastModified age="60d" />
+				</Delete>
+			</DefaultRolloverStrategy>
+		</RollingFile>
+
+		<!-- 3.errorLog, record error and fatal log -->
+		<RollingFile name="warnLog" fileName="${log.path}/${sysName}.warn.log"
+			filePattern="${log.path}/${sysName}.warn.log.%i">
+			<ThresholdFilter level="WARN" onMatch="ACCEPT"
+				onMismatch="DENY" />
+			<PatternLayout pattern="${log.pattern}" charset="${log.charset}"/>
+			<Policies>
+				<SizeBasedTriggeringPolicy size="100 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="10"/>
+		</RollingFile>
+	</appenders>
+
+	<loggers>
+		<root level="trace">
+			<appender-ref ref="Console" />
+			<appender-ref ref="debugLog" />
+			<appender-ref ref="infoLog" />
+			<appender-ref ref="warnLog" />
+		</root>
+		<!-- 框架日志配置logger -->
+		<!-- <logger name="org.springframework" level="OFF"></logger>  
+        <logger name="org.mybatis" level="OFF"></logger>
+        <logger name="org.quartz" level="OFF"></logger> -->
+	</loggers>
+</configuration> 
