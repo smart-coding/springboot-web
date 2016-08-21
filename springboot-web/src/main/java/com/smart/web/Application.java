@@ -15,4 +15,11 @@ public class Application {
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
 	}
+	
+	 /*@Bean
+	 public ServletRegistrationBean dispatcherRegistration(DispatcherServlet dispatcherServlet) {
+	    ServletRegistrationBean registration = new ServletRegistrationBean(dispatcherServlet);
+	    //registration.addUrlMappings("*.do");
+	    return registration;
+	 }*/
 }
