@@ -1,11 +1,11 @@
-package com.smart.web.controller.sys;
+package com.smart.web.frame.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.smart.web.controller.base.BaseController;
+import com.smart.web.base.BaseController;
 /**
  * 
  * Description: 

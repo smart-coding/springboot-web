@@ -1,4 +1,4 @@
-package com.smart.web.controller.base;
+package com.smart.web.base;
 
 
 import javax.servlet.http.HttpServletRequest;
