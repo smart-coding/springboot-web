@@ -2,6 +2,7 @@ package com.smart.web.frame.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -22,7 +23,7 @@ public class LoginController extends BaseController{
 		mv.setViewName("login");
 		return mv;
 	}
-	@RequestMapping(value = "/sysadmin")
+	@RequestMapping(value = "/sysadmin", method = RequestMethod.POST)
 	@ResponseBody
 	public Object test () {
 		return "ssss";
